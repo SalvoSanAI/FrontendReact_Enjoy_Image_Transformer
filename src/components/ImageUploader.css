@@ -1,0 +1,367 @@
+/* ==========================================================================
+   1. STRUTTURA DEL PANNELLO (Layout Elastico)
+   ========================================================================== */
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 12px;
+  min-height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.panel-left {
+  background: linear-gradient(160deg, #12122a 0%, #0f0f22 100%);
+}
+
+.panel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(247, 201, 72, 0.4);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.panel-label-icon {
+  font-size: 20px;
+}
+
+/* ==========================================================================
+   2. PULSANTI DI CARICAMENTO (Interfaccia Principale)
+   ========================================================================== */
+.upload-buttons {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-upload {
+  background: var(--color-primary);
+  color: #0d0d1a;
+  border-color: var(--color-primary);
+  flex: 1;
+}
+
+.btn-upload:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-glow-yellow);
+  transform: translateY(-1px);
+}
+
+.btn-camera {
+  background: transparent;
+  color: var(--color-accent2);
+  border-color: var(--color-accent2);
+  flex: 1;
+}
+
+.btn-camera:hover:not(:disabled) {
+  background: rgba(76, 201, 240, 0.1);
+  box-shadow: var(--shadow-glow-blue);
+  transform: translateY(-1px);
+}
+
+.btn-camera:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   3. AREA DI TRASCINAMENTO / ANTEPRIMA IMMAGINE (Drop Zone)
+   ========================================================================== */
+.image-zone {
+  flex: 1;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  min-height: 150px;
+}
+
+.image-zone.dragging {
+  border-color: var(--color-primary);
+  background: rgba(247, 201, 72, 0.05);
+  box-shadow: inset 0 0 30px rgba(247, 201, 72, 0.1);
+}
+
+.image-zone.has-image {
+  cursor: default;
+  border-style: solid;
+  border-color: var(--color-border);
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+/* Placeholder testuale interno alla drop-zone */
+.drop-placeholder {
+  text-align: center;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.drop-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.drop-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.drop-subtext {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.drop-formats {
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+/* METADATI IMMAGINE CARICATA */
+.image-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.info-name {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 75%;
+}
+
+.info-size {
+  font-size: 12px;
+  color: var(--color-primary);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   4. POPUP / MODALE FOTOCAMERA (Grande e HD)
+   ========================================================================== */
+.camera-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 5, 15, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: cameraFadeIn 0.25s ease-out;
+}
+
+.camera-modal-content {
+  background: linear-gradient(160deg, #161633 0%, #0d0d1e 100%);
+  border: 2px solid var(--color-accent2, #4cc9f0);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(76, 201, 240, 0.2);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 800px;
+  padding: 24px;
+  position: relative;
+  box-sizing: border-box;
+  animation: cameraScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.camera-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted, #888);
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.camera-modal-close:hover {
+  color: #ff4757;
+}
+
+.camera-modal-title {
+  margin: 0 0 16px 0;
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.camera-preview {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 55vh; /* Protezione per schermi bassi/14 pollici */
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #000;
+  border: 1px solid var(--color-border);
+}
+
+.camera-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Pulsanti interni alla modale fotocamera */
+.btn-camera-scatta {
+  background: var(--color-accent2, #4cc9f0);
+  color: #0d0d1a;
+  border-color: var(--color-accent2, #4cc9f0);
+  padding: 12px 24px;
+  font-weight: bold;
+}
+
+.btn-camera-scatta:hover {
+  box-shadow: var(--shadow-glow-blue);
+  transform: translateY(-1px);
+}
+
+.btn-camera-chiudi {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border-color: var(--color-border);
+  padding: 12px 20px;
+}
+
+.btn-camera-chiudi:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   5. ANIMAZIONI E COERENZA RESPONSIVE
+   ========================================================================== */
+@keyframes cameraFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cameraScaleUp {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Ottimizzazioni per monitor piccoli (es. laptop 13/14 pollici o finestre basse) */
+@media (max-height: 750px) and (min-width: 769px) {
+  .panel {
+    padding: 12px;
+    gap: 8px;
+  }
+  .camera-modal-content {
+    padding: 16px;
+  }
+  .drop-icon { 
+    font-size: 36px; 
+    margin-bottom: 4px; 
+  }
+  .drop-subtext { 
+    display: none; /* Nasconde sottotesto inutile per salvare spazio verticale */
+  } 
+}
+
+/* Layout Mobile standard (basato su App.css) */
+@media (max-width: 768px) {
+  .panel {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .upload-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .panel-label {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .image-zone {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    min-height: 220px;
+  }
+  .camera-modal-content {
+    width: 95%;
+    padding: 16px;
+  }
+  .camera-preview {
+    aspect-ratio: 4 / 3; /* Adatta il mirino della fotocamera in verticale su smartphone */
+  }
+}
