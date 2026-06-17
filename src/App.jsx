@@ -139,10 +139,53 @@ function App() {
   }, []);
 
   return (
-    // Il tuo blocco return HTML/JSX (Header, Sidebar, griglia supereroi, tag <img src={outputImage} />, ecc.) 
-    // rimane esattamente identico a prima.
-    <div className="app-container">
-       {/* Il tuo layout grafico */}
+    <div className="app-layout">
+      <Header />
+
+      {/* Se l'utente NON è loggato, blocca l'app e mostra la schermata di Login di Microsoft */}
+      <UnauthenticatedTemplate>
+        <main className="app-main" style={{ textAlign: 'center', padding: '50px' }}>
+          <h2>Accesso Richiesto</h2>
+          <p>Devi autenticarti con il tuo account Microsoft per accedere alla piattaforma di elaborazione immagini.</p>
+          <button onClick={handleLogin} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+            Accedi con Microsoft
+          </button>
+        </main>
+      </UnauthenticatedTemplate>
+
+      {/* Se l'utente È loggato, mostra la normale interfaccia operativa */}
+      <AuthenticatedTemplate>
+        <main className="app-main">
+          {statusText && <div className="status-banner">{statusText}</div>}
+          
+          <div className="panels-container">
+            <ImageUploader
+              uploadedImage={uploadedImage}
+              onImageLoaded={handleImageLoaded}
+            />
+            <div className="panels-divider">
+              <span className="divider-icon">⚡</span>
+            </div>
+            <ImageOutput
+              outputImage={outputImage}
+              isLoading={isLoading}
+            />
+          </div>
+        </main>
+
+        <Footer
+          selectedHero={selectedHero}
+          onHeroChange={setSelectedHero}
+          onTransform={handleTransform}
+          onReset={handleReset}
+          isLoading={isLoading}
+          hasImage={!!uploadedImage}
+        />
+      </AuthenticatedTemplate>
+
+      {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+      )}
     </div>
   );
 }
