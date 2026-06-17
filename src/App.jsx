@@ -53,7 +53,7 @@ function App() {
 
       // 2. Chiama l'Azure Function per richiedere il SAS URL blindato
       setStatusText("Richiesta SAS URL sicuro ad Azure...");
-      const functionUrl = `rg-azure-project-gfcge4ehhte5bhd8.italynorth-01.azurewebsites.net/api/get-upload-sas?filename=${uploadedImage.file.name}`;
+      const functionUrl = `https://rg-azure-project-gfcge4ehhte5bhd8.italynorth-01.azurewebsites.net/api/get-upload-sas?filename=${uploadedImage.file.name}`;
       
       const response = await fetch(functionUrl, {
         method: 'GET',
