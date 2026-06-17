@@ -19,8 +19,10 @@ function App() {
   const [statusText, setStatusText] = useState("");         // Feedback visivo dei passaggi di Azure
   const [error, setError] = useState(null);
 
+
   const handleLogin = () => {
-    instance.loginPopup(loginRequest).catch(e => setError("Errore durante il login: " + e.message));
+    // Sostituisci loginPopup con loginRedirect
+    instance.loginRedirect(loginRequest).catch(e => setError("Errore durante il login: " + e.message));
   };
 
   const handleImageLoaded = useCallback((imageData) => {
