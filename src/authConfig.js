@@ -7,7 +7,7 @@ export const msalConfig = {
         redirectUri: typeof window !== "undefined" ? window.location.origin : "http://localhost:3000",
     },
     cache: {
-        cacheLocation: "sessionStorage", // Salva il login nella sessione del browser
+        cacheLocation: "localStorage", 
         storeAuthStateInCookie: false,
     }
 };
@@ -16,3 +16,4 @@ export const msalConfig = {
 export const loginRequest = {
     scopes: ["api://94d43f1e-376a-4787-881e-eeeaee29e023/access_as_user"]
 };
+
