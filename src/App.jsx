@@ -1,6 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import { useMsal } from "@azure/msal-react";
+// 👇 INTEGRATI GLI IMPORT MANCANTI DI MSAL
+import { useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import { loginRequest } from "./authConfig";
+
+// 👇 INTEGRATI GLI IMPORT DEI COMPONENTI GRAFICI
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ImageUploader from './components/ImageUploader';
+import ImageOutput from './components/ImageOutput';
+import ErrorModal from './components/ErrorModal';
+
 import './App.css';
 
 function App() {
@@ -12,6 +21,13 @@ function App() {
   const [selectedHero, setSelectedHero] = useState(null);
   const [statusText, setStatusText] = useState(""); 
   const [error, setError] = useState(null);
+
+  // 👇 AGGIUNTA LA FUNZIONE DI LOGIN RICHIESTA DAL BOTTONE
+  const handleLogin = () => {
+    instance.loginRedirect(loginRequest).catch(e => {
+      console.error("Errore durante il reindirizzamento al login:", e);
+    });
+  };
 
   // ==========================================
   // 🔄 IL CICLO DI POLLING (VIAGGIO DI RITORNO)
@@ -99,7 +115,7 @@ function App() {
       const data = await response.json();
       const uploadUrl = data.uploadUrl;
 
-      // 3. Esegui il caricamento diretto nell'input-container bypassando il firewall tramite il SAS URL
+      // 3. Esegui il caricamento directo nell'input-container bypassando il firewall tramite il SAS URL
       setStatusText("Caricamento immagine nel Blob Storage blindato...");
       const uploadResult = await fetch(uploadUrl, {
         method: "PUT",
