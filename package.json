@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@azure/msal-browser": "^5.14.0",
+    "@azure/msal-react": "^5.4.5",
     "axios": "^1.6.0",
     "cross-env": "^10.1.0",
     "react": "^18.2.0",
