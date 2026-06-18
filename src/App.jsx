@@ -89,6 +89,21 @@ function App() {
       return;
     }
 
+    // 1. Generiamo un ID univoco fresco di zecca (es. 1718742514-b8c2)
+    const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const newFileName = `photo-${uniqueId}.jpg`;
+
+    // 2. Creiamo un NUOVO oggetto File clonando il blob esistente ma con il nuovo nome
+    const freshFile = new File([uploadedImage.file], newFileName, { 
+      type: uploadedImage.file.type 
+    });
+
+    // 3. Aggiorniamo lo stato locale in React (così anche il componente di polling saprà il nuovo nome)
+    setUploadedImage(prev => ({
+      ...prev,
+      file: freshFile
+    }));
+
     setIsLoading(true);
     setOutputImage(null);
     setError(null);
