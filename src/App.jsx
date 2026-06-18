@@ -121,8 +121,8 @@ function App() {
         method: "PUT",
         headers: {
           "x-ms-blob-type": "BlockBlob",
-          "Content-Type": uploadedImage.file.type,
-          "x-ms-meta-hero": selectedHero // 👈 AGGIUNGI QUESTO: passa il supereroe come metadato del blob!
+          "Content-Type": uploadedImage.file.type
+          // "x-ms-meta-hero": selectedHero // 👈 AGGIUNGI QUESTO: passa il supereroe come metadato del blob!
         },
         body: uploadedImage.file
       });
