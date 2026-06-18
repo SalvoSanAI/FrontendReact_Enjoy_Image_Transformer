@@ -108,7 +108,7 @@ function ImageUploader({ uploadedImage, onImageLoaded }) {
         } catch (err) {
           console.error(err);
           alert(getCameraErrorMessage(err));
-          setCameraOpen(false);
+          setCameraOpen(false);<
         }
       }
     };
@@ -133,8 +133,16 @@ function ImageUploader({ uploadedImage, onImageLoaded }) {
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0);
 
-    canvas.toBlob((blob) => {
-      const file = new File([blob], 'webcam-photo.jpg', { type: 'image/jpeg' });
+    canvas.toBlob((blob) => {      
+      // 1. Genera un suffisso univoco (es. 1718742514-a9b2)
+      const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+
+      // 2. Crea il nome del file dinamico (es. photo-1718742514-a9b2.jpg)
+      const fileName = `photo-${uniqueId}.jpg`;
+
+      // 3. Crea il file object con il nome dinamico
+      const file = new File([blob], fileName, { type: 'image/jpeg' });
+
       processFile(file);
       closeCamera();
     }, 'image/jpeg');
