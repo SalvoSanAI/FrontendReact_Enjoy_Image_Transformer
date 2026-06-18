@@ -38,7 +38,7 @@ function App() {
 
     const intervalId = setInterval(async () => {
       attempts++;
-      setStatusText(`Il supereroe sta elaborando... (Tentativo ${attempts})`);
+      setStatusText(`Superhero in the works ... (Tentativo ${attempts})`);
 
       try {
         // Interroghiamo la NUOVA Azure Function appena pubblicata
@@ -58,7 +58,7 @@ function App() {
           clearInterval(intervalId); // 🛑 Fermiamo il ciclo
           setOutputImage(data.downloadUrl); // 🖼️ Impostiamo il SAS URL firmato per visualizzarla
           setIsLoading(false);
-          setStatusText("🎉 Trasformazione completata con successo!");
+          setStatusText("🎉 Transformation successfully completed!");
         } 
         // Nota: se risponde 404, il catch non scatta e il ciclo continua tranquillamente al prossimo intervallo
         
@@ -110,7 +110,7 @@ function App() {
 
     try {
       // 1. Recupera l'Access Token silenziosamente grazie a MSAL
-      setStatusText("Autenticazione con Microsoft Entra ID...");
+      setStatusText("Authentication in progress...");
       const tokenResponse = await instance.acquireTokenSilent({
         ...loginRequest,
         account: accounts[0]
@@ -118,7 +118,7 @@ function App() {
       const accessToken = tokenResponse.accessToken;
 
       // 2. Chiama la prima Azure Function per ottenere il SAS URL di Scrittura
-      setStatusText("Richiesta autorizzazione di upload ...");
+      setStatusText("Requesting upload authorization ...");
       const functionUrl = `https://rg-azure-project-gfcge4ehhte5bhd8.italynorth-01.azurewebsites.net/api/get-upload-sas?filename=${uploadedImage.file.name}`;
       
       const response = await fetch(functionUrl, {
@@ -126,12 +126,12 @@ function App() {
         headers: { 'Authorization': `Bearer ${accessToken}` },
       });
 
-      if (!response.ok) throw new Error(`Errore autorizzazione backend: ${response.status}`);
+      if (!response.ok) throw new Error(`Backend authorization error: ${response.status}`);
       const data = await response.json();
       const uploadUrl = data.uploadUrl;
 
       // 3. Esegui il caricamento directo nell'input-container bypassando il firewall tramite il SAS URL
-      setStatusText("Caricamento immagine ...");
+      setStatusText("Loading image ...");
       const uploadResult = await fetch(uploadUrl, {
         method: "PUT",
         headers: {
@@ -143,7 +143,7 @@ function App() {
         body: uploadedImage.file
       });
 
-      if (!uploadResult.ok) throw new Error("Caricamento nello Storage fallito.");
+      if (!uploadResult.ok) throw new Error("Loading image failed.");
 
       // 🚀 AGGANCIO DEL POLLING: L'andata è completata con successo. 
       // Diamo il via al ciclo di controllo passando il nome del file e il token
