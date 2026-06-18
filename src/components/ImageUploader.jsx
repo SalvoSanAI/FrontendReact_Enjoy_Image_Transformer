@@ -108,7 +108,7 @@ function ImageUploader({ uploadedImage, onImageLoaded }) {
         } catch (err) {
           console.error(err);
           alert(getCameraErrorMessage(err));
-          setCameraOpen(false);<
+          setCameraOpen(false);
         }
       }
     };
