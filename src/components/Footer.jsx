@@ -18,6 +18,7 @@ import './Footer.css';
 
 const SUPERHEROES = [
   { value: 'spider-man', label: '🕷️ Spider-Man' },
+  { value: 'joker', label: '🤡 Joker' },
   { value: 'race-driver', label: '🏎️ Pilota di Macchine' },
   { value: 'motocross', label: '🏍️ Pilota Motocross' },
   { value: 'mario', label: '🍄 Super Mario' },
@@ -37,6 +38,7 @@ const SUPERHEROES = [
   { value: 'crazy-doc', label: '🩺 Dottore Matto' },
   { value: 'mad-scientist', label: '🧪 Scienziato Pazzo' },
   { value: 'raven', label: '🟣 Corvina' },
+  
 ];
 const selectStyles = {
   container: (base) => ({ ...base, flex: 1, minWidth: 220 }),
