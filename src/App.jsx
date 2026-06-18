@@ -103,7 +103,7 @@ function App() {
       const accessToken = tokenResponse.accessToken;
 
       // 2. Chiama la prima Azure Function per ottenere il SAS URL di Scrittura
-      setStatusText("Richiesta autorizzazione di upload ad Azure...");
+      setStatusText("Richiesta autorizzazione di upload ...");
       const functionUrl = `https://rg-azure-project-gfcge4ehhte5bhd8.italynorth-01.azurewebsites.net/api/get-upload-sas?filename=${uploadedImage.file.name}`;
       
       const response = await fetch(functionUrl, {
@@ -116,18 +116,19 @@ function App() {
       const uploadUrl = data.uploadUrl;
 
       // 3. Esegui il caricamento directo nell'input-container bypassando il firewall tramite il SAS URL
-      setStatusText("Caricamento immagine nel Blob Storage blindato...");
+      setStatusText("Caricamento immagine ...");
       const uploadResult = await fetch(uploadUrl, {
         method: "PUT",
         headers: {
           "x-ms-blob-type": "BlockBlob",
           "Content-Type": uploadedImage.file.type,
-          "x-ms-meta-hero": selectedHero // 👈 AGGIUNGI QUESTO: passa il supereroe come metadato del blob!
+          // 💡 ESTRAI IL .value (con un fallback di sicurezza se non è selezionato nulla)
+          "x-ms-meta-hero": selectedHero?.value || "superhero"
         },
         body: uploadedImage.file
       });
 
-      if (!uploadResult.ok) throw new Error("Caricamento nel Blob Storage fallito.");
+      if (!uploadResult.ok) throw new Error("Caricamento nello Storage fallito.");
 
       // 🚀 AGGANCIO DEL POLLING: L'andata è completata con successo. 
       // Diamo il via al ciclo di controllo passando il nome del file e il token
