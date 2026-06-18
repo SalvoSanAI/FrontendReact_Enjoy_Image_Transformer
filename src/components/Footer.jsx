@@ -2,20 +2,6 @@ import React from 'react';
 import Select from 'react-select';
 import './Footer.css';
 
-// 10 personaggi epici e divertenti liberi da copyright, ottimizzati per FLUX.2
-// const SUPERHEROES = [
-//   { value: 'galactic space knight with a glowing laser sword and neon armor', label: '⚔️ Cavaliere Spaziale' },
-//   { value: 'retro futuristic cyberpunk hacker with neon glasses and tech jacket', label: '🌐 Hacker Cyberpunk' },
-//   { value: 'ancient majestic pharaoh with a golden crown and jeweled collar', label: '👑 Faraone Egizio' },
-//   { value: 'mystical fantasy wizard with a glowing staff and embroidered velvet robes', label: '🔮 Mago Supremo' },
-//   { value: 'steampunk inventor with brass goggles, gears, and a leather vest', label: '⚙️ Inventore Steampunk' },
-//   { value: 'legendary Norse viking warrior with a fur cape and detailed armor', label: '🪓 Guerriero Vichingo' },
-//   { value: 'interstellar astronaut in a sleek modern spacesuit with patch details', label: '🚀 Astronauta Esploratore' },
-//   { value: 'funny retro cooking chef with a tall white hat and a kitchen apron', label: '👨‍🍳 Chef Stellato' },
-//   { value: 'classic elegant royalty king with a velvet red cape and a shiny crown', label: '👑 Re Medievale' },
-//   { value: 'cybernetic ninja assassin with sleek carbon fiber armor and glowing mask', label: '🥷 Ninja del Futuro' },
-// ];
-
 const SUPERHEROES = [
   { value: 'spider-man', label: '🕷️ Spider-Man' },
   { value: 'joker', label: '🤡 Joker' },
@@ -37,8 +23,9 @@ const SUPERHEROES = [
   { value: 'sponge-char', label: '🧽 Mr. Spugna' },
   { value: 'crazy-doc', label: '🩺 Dottore Matto' },
   { value: 'mad-scientist', label: '🧪 Scienziato Pazzo' },
-  { value: 'raven', label: '🟣 Corvina' }  
+  { value: 'raven', label: '🟣 Corvina' }
 ];
+
 const selectStyles = {
   container: (base) => ({ ...base, flex: 1, minWidth: 220 }),
   control: (base, state) => ({
@@ -85,17 +72,21 @@ const selectStyles = {
 };
 
 function Footer({ selectedHero, onHeroChange, onTransform, onReset, isLoading, hasImage }) {
+  // Sicurezza per react-select: se passiamo una stringa invece dell'oggetto, cerchiamo il match corretto
+  const currentOption = typeof selectedHero === 'string' 
+    ? SUPERHEROES.find(opt => opt.value === selectedHero) 
+    : selectedHero;
+
   return (
     <footer className="app-footer">
       <div className="footer-inner">
-        {/* Selector di Personaggi */}
         <div className="footer-selector">
           <label className="selector-label">
             <span>🎭</span> Scegli il tuo personaggio
           </label>
           <Select
             options={SUPERHEROES}
-            value={selectedHero}
+            value={currentOption}
             onChange={onHeroChange}
             placeholder="Cerca personaggio..."
             isSearchable
@@ -106,7 +97,6 @@ function Footer({ selectedHero, onHeroChange, onTransform, onReset, isLoading, h
           />
         </div>
 
-        {/* Action buttons */}
         <div className="footer-actions">
           <button
             className={`btn btn-transform ${isLoading ? 'loading' : ''}`}
