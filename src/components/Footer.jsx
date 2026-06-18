@@ -37,8 +37,7 @@ const SUPERHEROES = [
   { value: 'sponge-char', label: '🧽 Mr. Spugna' },
   { value: 'crazy-doc', label: '🩺 Dottore Matto' },
   { value: 'mad-scientist', label: '🧪 Scienziato Pazzo' },
-  { value: 'raven', label: '🟣 Corvina' },
-  
+  { value: 'raven', label: '🟣 Corvina' }  
 ];
 const selectStyles = {
   container: (base) => ({ ...base, flex: 1, minWidth: 220 }),
